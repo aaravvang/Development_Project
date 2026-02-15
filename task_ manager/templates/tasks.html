@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tasks</title>
+    <script>
+        function toggleEdit(taskId) {
+            var editSection = document.getElementById('edit_' + taskId);
+            if (editSection.style.display === 'none') {
+                editSection.style.display = 'table-row';
+            } else {
+                editSection.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h2>Task List</h2>
+    <form action="/add" method="post">
+        <input type="text" name="task_name" placeholder="Task Name"><br>
+        <input type="text" name="task_description" placeholder="Task Description"><br>
+        <button type="submit">
+            Add Task
+        </button>
+    </form>
+
+    <hr>
+
+    {% if data %}
+    <table border="1">
+        <tr>
+            <th>Select</th>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+        </tr>
+        {% for task in data %}
+        <tr>
+            <td><input type="checkbox" onclick="toggleEdit({{ task.task_id }})"></td>
+            <td>{{ task.task_id }}</td>
+            <td>{{ task.task_name }}</td>
+            <td>{{ task.task_description }}</td> 
+            <td>{{ task.status }}</td>
+        </tr>
+        <tr id="edit_{{ task.task_id }}" style="display:none;">
+            <td colspan="5">
+                <form action="/update" method="post" style="display:inline;">
+                    <input type="hidden" name="task_id" value="{{ task.task_id }}">
+                    <input type="text" name="task_description" placeholder="New description">
+                    <select name="status">
+                        <option value="">-Change Status-</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Complete">Complete</option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+                <form action="/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="task_id" value="{{ task.task_id }}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No tasks found</p>
+    {% endif %}
+</body>
+
+</html>

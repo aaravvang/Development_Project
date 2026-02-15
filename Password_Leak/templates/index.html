@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Password Checker{% endblock %}
+
+{% block content %}
+  <section class="add-task">
+    <form action="{{ url_for('add_password') }}" method="post">
+      <input type="text" name="value" placeholder="Enter a password to check" required />
+      <button type="submit">Add</button>
+    </form>
+  </section>
+
+  <section class="tasks">
+    {% if passwords %}
+      <ul>
+        {% for p in passwords %}
+          <li>
+            <span class="task-title">{{ p.value }}</span>
+            <form action="{{ url_for('delete_password', password_id=p.id) }}" method="post" class="inline-form">
+              <button class="delete" type="submit" title="Delete">Delete</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No passwords yet — add one above!</p>
+    {% endif %}
+  </section>
+{% endblock %}
