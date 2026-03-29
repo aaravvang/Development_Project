@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Temperature Converter</title>
+</head>
+<body>
+
+<h1>Convering Celsius to Fahrenheit</h1>
+
+<div class="result">
+ {{ temperature_fahrenheit }} °F
+</div>
+
+
+
+<form action="/convert" method="post">
+    <input type="text" name="temp_c" placeholder="celsius"><br>
+    <button type="submit">convert</button>    
+</form>
+
+
+</body>
+</html>

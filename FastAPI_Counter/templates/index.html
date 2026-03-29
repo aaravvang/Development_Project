@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Counter App</title>
+</head>
+<body>
+
+<h1>FastAPI Counter</h1>
+
+<div id="value">0</div>
+
+<button onclick="increment()">+</button>
+<button onclick="decrement()">-</button>
+<button onclick="resetCounter()">Reset</button>>
+
+<script>
+async function updateCounter() {
+    const res = await fetch("/counter");
+    const data = await res.json();
+    document.getElementById("value").innerText = data.counter;
+}
+
+async function increment() {
+    await fetch("/increment", { method: "POST" });
+    updateCounter();
+}
+
+async function decrement() {
+    await fetch("/decrement", { method: "POST" });
+    updateCounter();
+}
+
+async function resetCounter() {
+    await fetch("/reset", { method: "POST" });
+    updateCounter();
+}
+
+updateCounter();
+</script>
+
+</body>
+</html>
